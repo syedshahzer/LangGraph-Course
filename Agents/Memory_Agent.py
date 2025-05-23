@@ -1,16 +1,16 @@
 import os
 from typing import TypedDict, List, Union
 from langchain_core.messages import HumanMessage, AIMessage
-from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, START, END
 from dotenv import load_dotenv
+from chat_openrouter import ChatOpenRouter
 
 load_dotenv()
 
 class AgentState(TypedDict):
     messages: List[Union[HumanMessage, AIMessage]]
 
-llm = ChatOpenAI(model="gpt-4o")
+llm = ChatOpenRouter(model_name="google/gemma-3-4b-it:free")
 
 def process(state: AgentState) -> AgentState:
     """This node will solve the request you input"""
@@ -18,7 +18,7 @@ def process(state: AgentState) -> AgentState:
 
     state["messages"].append(AIMessage(content=response.content)) 
     print(f"\nAI: {response.content}")
-    print("CURRENT STATE: ", state["messages"])
+    # print("CURRENT STATE: ", state["messages"])
 
     return state
 
