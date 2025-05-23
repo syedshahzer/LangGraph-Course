@@ -5,7 +5,7 @@ from typing import TypedDict, Annotated, Sequence
 from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage, ToolMessage
 from operator import add as add_messages
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_openai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
@@ -17,12 +17,12 @@ llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash", temperature = 0) # I want to minimize hallucination - temperature = 0 makes the model output more deterministic
 
 # Our Embedding Model - has to also be compatible with the LLM
-embeddings = OpenAIEmbeddings(
-    model="text-embedding-3-small",
+embeddings = GoogleGenerativeAIEmbeddings(
+    model="models/embedding-001",
 )
 
 
-pdf_path = "Stock_Market_Performance_2024.pdf"
+pdf_path = "./Agents/Stock_Market_Performance_2024.pdf"
 
 
 # Safety measure I have put for debugging purposes :)
@@ -48,7 +48,7 @@ text_splitter = RecursiveCharacterTextSplitter(
 
 pages_split = text_splitter.split_documents(pages) # We now apply this to our pages
 
-persist_directory = r"C:\Vaibhav\LangGraph_Book\LangGraphCourse\Agents"
+persist_directory = r"./chroma_db" # This is the directory where we will store our ChromaDB
 collection_name = "stock_market"
 
 # If our collection does not exist in the directory, we create using the os command
