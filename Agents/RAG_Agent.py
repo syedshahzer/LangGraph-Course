@@ -4,7 +4,7 @@ from langgraph.graph import StateGraph, END
 from typing import TypedDict, Annotated, Sequence
 from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage, ToolMessage
 from operator import add as add_messages
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -13,8 +13,8 @@ from langchain_core.tools import tool
 
 load_dotenv()
 
-llm = ChatOpenAI(
-    model="gpt-4o", temperature = 0) # I want to minimize hallucination - temperature = 0 makes the model output more deterministic 
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.0-flash", temperature = 0) # I want to minimize hallucination - temperature = 0 makes the model output more deterministic
 
 # Our Embedding Model - has to also be compatible with the LLM
 embeddings = OpenAIEmbeddings(

@@ -1,7 +1,7 @@
 from typing import Annotated, Sequence, TypedDict
 from dotenv import load_dotenv  
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, ToolMessage, SystemMessage
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.tools import tool
 from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, END
@@ -50,14 +50,14 @@ def save(filename: str) -> str:
 
 tools = [update, save]
 
-model = ChatOpenAI(model="gpt-4o").bind_tools(tools)
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash-preview-05-20").bind_tools(tools)
 
 def our_agent(state: AgentState) -> AgentState:
     system_prompt = SystemMessage(content=f"""
     You are Drafter, a helpful writing assistant. You are going to help the user update and modify documents.
     
     - If the user wants to update or modify content, use the 'update' tool with the complete updated content.
-    - If the user wants to save and finish, you need to use the 'save' tool.
+    - If the user wants to save and finish, you need to use the 'save' tool. Name the file appropriately.
     - Make sure to always show the current document state after modifications.
     
     The current document content is:{document_content}
