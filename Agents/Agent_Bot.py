@@ -17,7 +17,7 @@ class AgentState(TypedDict):
 #     openai_api_base="https://openrouter.ai/api/v1"
 # )
 llm = ChatOpenRouter(
-    model_name='mistralai/devstral-small:free'
+    model_name='google/gemma-3-4b-it:free'
 )    
 
 def process(state: AgentState) -> AgentState:
